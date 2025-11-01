@@ -1,11 +1,107 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title> Gestion des tâches</title>
+    <style>
+        /* Tu vas remplacer tout ce style par ton CSS */
+        body { font-family: Arial, sans-serif; background:#f4f4f4; margin:0; padding:20px; }
+        h1 { text-align:center; }
+        .board { display:flex; gap:20px; justify-content:center; margin-top:30px; }
+        .column { background:white; padding:15px; border-radius:10px; width:300px; }
+        .column h2 { margin-top:0; text-align:center; }
+        .task { background:#e8e8e8; padding:10px; border-radius:6px; margin-bottom:10px; cursor:grab; }
+        .add-form { margin-top:15px; display:flex; gap:5px; }
+        input { flex:1; padding:5px; }
+        button { padding:5px 10px; cursor:pointer; }
+    </style>
 </head>
 <body>
-    
+
+    <h1> Gestionnaire de tâches</h1>
+
+    <div class="board">
+
+        <!-- Colonne A Faire -->
+        <div class="column" ondrop="drop(event)" ondragover="allowDrop(event)">
+            <h2>À faire</h2>
+            <div class="task-list">
+                <div class="task" draggable="true" ondragstart="drag(event)">Créer la structure</div>
+            </div>
+
+            <div class="add-form">
+                <input type="text" placeholder="Nouvelle tâche" class="input-task">
+                <button onclick="addTask(this)">Ajouter</button>
+            </div>
+        </div>
+
+        <!-- Colonne En cours -->
+        <div class="column" ondrop="drop(event)" ondragover="allowDrop(event)">
+            <h2>En cours</h2>
+            <div class="task-list">
+                <div class="task" draggable="true" ondragstart="drag(event)">Coder le HTML</div>
+            </div>
+
+            <div class="add-form">
+                <input type="text" placeholder="Nouvelle tâche" class="input-task">
+                <button onclick="addTask(this)">Ajouter</button>
+            </div>
+        </div>
+
+        <!-- Colonne Terminé -->
+        <div class="column" ondrop="drop(event)" ondragover="allowDrop(event)">
+            <h2>Terminé</h2>
+            <div class="task-list">
+                <div class="task" draggable="true" ondragstart="drag(event)">Installer Git</div>
+            </div>
+
+            <div class="add-form">
+                <input type="text" placeholder="Nouvelle tâche" class="input-task">
+                <button onclick="addTask(this)">Ajouter</button>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Drag and Drop
+        let draggedTask = null;
+
+        function drag(event) {
+            draggedTask = event.target;
+        }
+
+        function allowDrop(event) {
+            event.preventDefault();
+        }
+
+        function drop(event) {
+            event.preventDefault();
+            if (event.target.classList.contains("column")) {
+                event.target.querySelector(".task-list").appendChild(draggedTask);
+            } else if (event.target.classList.contains("task-list")) {
+                event.target.appendChild(draggedTask);
+            }
+        }
+
+        // Ajouter tâche
+        function addTask(button) {
+            const input = button.previousElementSibling;
+            const text = input.value.trim();
+            if (text === "") return;
+
+            const task = document.createElement("div");
+            task.className = "task";
+            task.draggable = true;
+            task.textContent = text;
+            task.setAttribute("ondragstart", "drag(event)");
+
+            const list = button.closest(".column").querySelector(".task-list");
+            list.appendChild(task);
+
+            input.value = "";
+        }
+    </script>
+
 </body>
 </html>
