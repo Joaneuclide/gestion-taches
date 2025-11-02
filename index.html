@@ -4,13 +4,14 @@
     <meta charset="UTF-8">
     <title> Gestion des tâches</title>
     <style>
-        /* Tu vas remplacer tout ce style par ton CSS */
         body { font-family: Arial, sans-serif; background:#f4f4f4; margin:0; padding:20px; }
         h1 { text-align:center; }
         .board { display:flex; gap:20px; justify-content:center; margin-top:30px; }
         .column { background:white; padding:15px; border-radius:10px; width:300px; }
         .column h2 { margin-top:0; text-align:center; }
-        .task { background:#e8e8e8; padding:10px; border-radius:6px; margin-bottom:10px; cursor:grab; }
+        .task { background:#e8e8e8; padding:10px; border-radius:6px; margin-bottom:10px; cursor:grab; display:flex; justify-content:space-between; align-items:center; }
+        .task span { flex:1; }
+        .task button { margin-left:8px; cursor:pointer; }
         .add-form { margin-top:15px; display:flex; gap:5px; }
         input { flex:1; padding:5px; }
         button { padding:5px 10px; cursor:pointer; }
@@ -22,11 +23,10 @@
 
     <div class="board">
 
-        <!-- Colonne A Faire -->
         <div class="column" ondrop="drop(event)" ondragover="allowDrop(event)">
             <h2>À faire</h2>
             <div class="task-list">
-                <div class="task" draggable="true" ondragstart="drag(event)">Créer la structure</div>
+                <div class="task" draggable="true" ondragstart="drag(event)"><span>Créer la structure</span> <button onclick="editTask(this)">✏️</button></div>
             </div>
 
             <div class="add-form">
@@ -35,11 +35,10 @@
             </div>
         </div>
 
-        <!-- Colonne En cours -->
         <div class="column" ondrop="drop(event)" ondragover="allowDrop(event)">
             <h2>En cours</h2>
             <div class="task-list">
-                <div class="task" draggable="true" ondragstart="drag(event)">Coder le HTML</div>
+                <div class="task" draggable="true" ondragstart="drag(event)"><span>Coder le HTML</span> <button onclick="editTask(this)">✏️</button></div>
             </div>
 
             <div class="add-form">
@@ -48,11 +47,10 @@
             </div>
         </div>
 
-        <!-- Colonne Terminé -->
         <div class="column" ondrop="drop(event)" ondragover="allowDrop(event)">
             <h2>Terminé</h2>
             <div class="task-list">
-                <div class="task" draggable="true" ondragstart="drag(event)">Installer Git</div>
+                <div class="task" draggable="true" ondragstart="drag(event)"><span>Installer Git</span> <button onclick="editTask(this)">✏️</button></div>
             </div>
 
             <div class="add-form">
@@ -64,17 +62,10 @@
     </div>
 
     <script>
-        // Drag and Drop
         let draggedTask = null;
 
-        function drag(event) {
-            draggedTask = event.target;
-        }
-
-        function allowDrop(event) {
-            event.preventDefault();
-        }
-
+        function drag(event) { draggedTask = event.target; }
+        function allowDrop(event) { event.preventDefault(); }
         function drop(event) {
             event.preventDefault();
             if (event.target.classList.contains("column")) {
@@ -84,22 +75,28 @@
             }
         }
 
-        // Ajouter tâche
         function addTask(button) {
             const input = button.previousElementSibling;
             const text = input.value.trim();
-            if (text === "") return;
+            if (!text) return;
 
             const task = document.createElement("div");
             task.className = "task";
             task.draggable = true;
-            task.textContent = text;
             task.setAttribute("ondragstart", "drag(event)");
+            task.innerHTML = `<span>${text}</span> <button onclick="editTask(this)">✏️</button>`;
 
-            const list = button.closest(".column").querySelector(".task-list");
-            list.appendChild(task);
-
+            button.closest(".column").querySelector(".task-list").appendChild(task);
             input.value = "";
+        }
+
+        function editTask(btn) {
+            const task = btn.closest(".task");
+            const span = task.querySelector("span");
+            const newText = prompt("Modifier la tâche :", span.textContent);
+            if (newText !== null && newText.trim() !== "") {
+                span.textContent = newText.trim();
+            }
         }
     </script>
 
