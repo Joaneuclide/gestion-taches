@@ -1,20 +1,30 @@
-name: Deploiement auto du site 
+name: Deploy HTML Website
 
 on:
   push:
     branches:
-      - main
+      - main  # Déclenche à chaque push sur main
+
+permissions:
+  contents: read        # Lire le code
+  pages: write          # Écrire sur GitHub Pages
+  id-token: write       # Nécessaire pour certaines actions
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    
+
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
+      - name: Setup GitHub Pages
+        uses: actions/configure-pages@v3
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v2
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: .
+          path: ./  # Racine de ton projet HTML
+
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v2
