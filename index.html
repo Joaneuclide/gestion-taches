@@ -84,7 +84,10 @@
             task.className = "task";
             task.draggable = true;
             task.setAttribute("ondragstart", "drag(event)");
-            task.innerHTML = `<span>${text}</span> <button onclick="editTask(this)">✏️</button>`;
+            task.innerHTML = `<span>${text}</span> 
+             <button onclick="editTask(this)">✏️</button>
+            <button onclick="deleteTask(this)">🗑️</button>`;
+
 
             button.closest(".column").querySelector(".task-list").appendChild(task);
             input.value = "";
@@ -98,6 +101,11 @@
                 span.textContent = newText.trim();
             }
         }
+        function deleteTask(btn) {
+            const task = btn.closest(".task");
+            task.remove();
+        }
+
     </script>
 
 </body>
