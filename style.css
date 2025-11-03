@@ -1,11 +1,113 @@
-body { font-family: Arial, sans-serif; background:#f4f4f4; margin:0; padding:20px; }
-        h1 { text-align:center; }
-        .board { display:flex; gap:20px; justify-content:center; margin-top:30px; }
-        .column { background:white; padding:15px; border-radius:10px; width:300px; }
-        .column h2 { margin-top:0; text-align:center; }
-        .task { background:#e8e8e8; padding:10px; border-radius:6px; margin-bottom:10px; cursor:grab; display:flex; justify-content:space-between; align-items:center; }
-        .task span { flex:1; }
-        .task button { margin-left:8px; cursor:pointer; }
-        .add-form { margin-top:15px; display:flex; gap:5px; }
-        input { flex:1; padding:5px; }
-        button { padding:5px 10px; cursor:pointer; }
+/* BASE */
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #4facfe, #00f2fe);
+    margin: 0;
+    padding: 20px;
+    color: #333;
+}
+
+h1 {
+    text-align: center;
+    color: #fff;
+    font-size: 32px;
+    font-weight: 600;
+    margin-bottom: 40px;
+}
+
+/* BOARD */
+.board {
+    display: flex;
+    gap: 25px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* COLUMNS */
+.column {
+    background: #ffffffdd;
+    padding: 18px;
+    border-radius: 14px;
+    width: 300px;
+    backdrop-filter: blur(6px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    transition: transform .2s;
+}
+
+.column:hover {
+    transform: translateY(-5px);
+}
+
+.column h2 {
+    margin-top: 0;
+    text-align: center;
+    color: #333;
+    font-weight: 600;
+}
+
+/* TASKS */
+.task {
+    background: #f7f7f7;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    cursor: grab;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: transform .15s, box-shadow .15s;
+    border-left: 5px solid #4facfe;
+}
+
+.task:hover {
+    transform: scale(1.03);
+    box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+}
+
+.task span {
+    flex: 1;
+}
+
+/* BUTTONS */
+.task button,
+.add-form button {
+    background: #4facfe;
+    border: none;
+    padding: 6px 8px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background .2s;
+    font-size: 14px;
+    color: white;
+}
+
+.task button:hover,
+.add-form button:hover {
+    background: #00baff;
+}
+
+.task button:last-child {
+    background: #ff4d4d;
+}
+
+.task button:last-child:hover {
+    background: #e60000;
+}
+
+/* INPUT */
+.add-form {
+    margin-top: 15px;
+    display: flex;
+    gap: 8px;
+}
+
+input {
+    flex: 1;
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+button {
+    padding: 8px 10px;
+}
