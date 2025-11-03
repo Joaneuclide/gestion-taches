@@ -1,6 +1,6 @@
-name: Deploy HTML Website
+name: Deploiement du site HTML #nom de l'action
 
-on:
+on: # indique où l'action sera effectuée
   push:
     branches:
       - main  # Déclenche à chaque push sur main
@@ -10,21 +10,18 @@ permissions:
   pages: write
   id-token: write
 
-jobs:
+jobs: # précise les différentes taches de l'action
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Récupération du code
         uses: actions/checkout@v3
 
-      - name: Setup Pages
+      - name: préparation de GitHub pages
         uses: actions/configure-pages@v3
 
-      - name: Deploy site
+      - name: publication automatique
         uses: actions/deploy-pages@v2
         with:
-          # dossier racine de ton projet HTML
-          # Pour un projet HTML simple, laisse ./ 
-          # Si build React/Vue, mettre ./dist ou ./build
           path: ./
